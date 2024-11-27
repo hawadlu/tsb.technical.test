@@ -4,7 +4,7 @@ package com.tsb.technical.test.entities;
 import jakarta.persistence.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
-@Table("ACCOUNT_HOLDER")
+@Table("account_holder")
 public class AccountHolder {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

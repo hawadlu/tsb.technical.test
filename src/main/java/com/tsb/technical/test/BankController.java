@@ -1,22 +1,26 @@
-package com.tsb.technical.test.controllers;
+package com.tsb.technical.test;
 
+import com.tsb.technical.test.entities.Account;
 import com.tsb.technical.test.entities.AccountHolder;
 import com.tsb.technical.test.repositories.AccountHolderRepository;
+import com.tsb.technical.test.repositories.AccountRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
-import java.security.Principal;
 
 @RestController
-@RequestMapping("/account")
-public class AccountHolderController
+@RequestMapping("/accountHolder")
+public class BankController
 {
     private final AccountHolderRepository accountHolderRepository;
+    private final AccountRepository accountRepository;
 
-    private AccountHolderController(AccountHolderRepository accountHolderRepository) {
+    private BankController(AccountHolderRepository accountHolderRepository, AccountRepository accountRepository) {
         this.accountHolderRepository = accountHolderRepository;
+        this.accountRepository = accountRepository;
     };
 
     @GetMapping("/{accountHolderId}")
@@ -27,8 +31,17 @@ public class AccountHolderController
         return ResponseEntity.notFound().build();
     }
 
+    @GetMapping("/{accountHolderId}/accounts")
+    private ResponseEntity<Iterable<Account>> findAccountsByAccountHolderId(@PathVariable Long accountHolderId) {
+       // Locate the appropriate account
+        ResponseEntity<AccountHolder> accountHolder = findAccountHolderById(accountHolderId);
+        if (accountHolder.getStatusCode() != HttpStatus.OK) return ResponseEntity.notFound().build();
+
+        return ResponseEntity.ok(this.accountRepository.findAllByAccountHolderId(accountHolderId));
+    }
+
     @PostMapping
-    private ResponseEntity<Void> createCashCard(@RequestBody AccountHolder newAccountHolder, UriComponentsBuilder uriComponentsBuilder) {
+    private ResponseEntity<Void> createAccountHolder(@RequestBody AccountHolder newAccountHolder, UriComponentsBuilder uriComponentsBuilder) {
         AccountHolder savedAccountHolder = accountHolderRepository.save(new AccountHolder(null, newAccountHolder.getName(), newAccountHolder.getEmail()));
 
         URI newLocation = uriComponentsBuilder.path("accounts/{id}").buildAndExpand(savedAccountHolder.getId()).toUri();
