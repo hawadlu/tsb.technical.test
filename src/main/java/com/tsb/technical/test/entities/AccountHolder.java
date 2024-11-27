@@ -1,8 +1,9 @@
 package com.tsb.technical.test.entities;
 
-import jakarta.persistence.*;
-import org.springframework.data.relational.core.mapping.Table;
 
+import jakarta.persistence.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Table;
 @Table("ACCOUNT_HOLDER")
 public class AccountHolder {
     @Id
