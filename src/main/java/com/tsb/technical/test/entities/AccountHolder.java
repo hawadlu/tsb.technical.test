@@ -12,12 +12,15 @@ public class AccountHolder {
     private String username;
     private String password;
 
+    private String name;
+
     public AccountHolder() {}
 
-    public AccountHolder(Long id, String username, String password) {
+    public AccountHolder(Long id, String username, String password, String name) {
         this.id = id;
         this.username = username;
         this.password = password;
+        this.name = name;
     }
 
     public Long getId() {
@@ -26,6 +29,14 @@ public class AccountHolder {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getUsername() {

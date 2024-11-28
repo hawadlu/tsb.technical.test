@@ -13,6 +13,8 @@ public class Transaction {
     private Long toAccountId;
     private Long amount;
 
+    private Long accountOwnerId;
+
     public Long getId() {
         return id;
     }
@@ -21,14 +23,21 @@ public class Transaction {
         this.id = id;
     }
 
-    public Transaction(Long id, Long fromAccountId, Long toAccountId, Long amount) {
+    public Transaction(Long id, Long fromAccountId, Long toAccountId, Long amount, Long accountOwnerId) {
         this.id = id;
         this.fromAccountId = fromAccountId;
         this.toAccountId = toAccountId;
         this.amount = amount;
+        this.accountOwnerId = accountOwnerId;
     }
 
     public Transaction() {}
+
+    public Long getAccountOwnerId() {return accountOwnerId;}
+
+    public void setAccountOwnerId(Long accountOwnerId) {
+        this.accountOwnerId = accountOwnerId;
+    }
 
     public Long getFromAccountId() {
         return fromAccountId;

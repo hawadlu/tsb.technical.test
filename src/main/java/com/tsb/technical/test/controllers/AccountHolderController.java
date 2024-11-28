@@ -42,14 +42,4 @@ public class AccountHolderController
         }
         return ResponseEntity.notFound().build();
     }
-
-    @PostMapping
-    private ResponseEntity<AccountHolder> createAccountHolder(@RequestBody AccountHolder newAccountHolder, UriComponentsBuilder ucb) {
-        AccountHolder savedAccountHolder = this.accountHolderRepository.save(new AccountHolder(null, newAccountHolder.getUsername(), newAccountHolder.getPassword()));
-        URI locationOfNewAccountHolder = ucb
-                .path("accountHolder/{accountHolderId}")
-                .buildAndExpand(savedAccountHolder.getId())
-                .toUri();
-        return ResponseEntity.created(locationOfNewAccountHolder).build();
-    }
 }

@@ -52,8 +52,13 @@ public class TransactionController
     @PostMapping
     @Transactional
     public ResponseEntity<Transaction> createTransaction(
+            @RequestHeader("Authorization") String authHeader,
             @RequestBody Transaction newTransaction,
             UriComponentsBuilder ucb) {
+
+        if (!accountSecurity.isAuthorized(authHeader, newTransaction.getAccountOwnerId())) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
 
         // Find the accounts
         Account fromAccount = accountRepository.findAccountById(newTransaction.getFromAccountId());
@@ -82,7 +87,8 @@ public class TransactionController
                 null,
                 newTransaction.getFromAccountId(),
                 newTransaction.getToAccountId(),
-                newTransaction.getAmount()
+                newTransaction.getAmount(),
+                newTransaction.getAccountOwnerId()
         ));
 
         URI locationOfNewTransaction = ucb
