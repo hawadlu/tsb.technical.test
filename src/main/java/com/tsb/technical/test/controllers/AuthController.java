@@ -27,7 +27,7 @@ public class AuthController {
     }
 
     record LoginRequest(String username, String password) {}
-    record LoginResponse(String token) {}
+    record LoginResponse(String token, Long accountHolderId) {}
     record ErrorResponse(String message) {}
 
     @PostMapping("/login")
@@ -43,7 +43,8 @@ public class AuthController {
             Long accountHolderId = accountHolderRepository.findByUsername(request.username).getId();
 
             final String jwt = jwtUtil.generateToken(request.username(), accountHolderId);
-            return ResponseEntity.ok(new LoginResponse(jwt));
+            // Not great practice but it will do for now
+            return ResponseEntity.ok(new LoginResponse(jwt, accountHolderId));
 
         } catch (BadCredentialsException e) {
             return ResponseEntity

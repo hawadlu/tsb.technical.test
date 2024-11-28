@@ -11,15 +11,18 @@ public class AccountSecurity {
         this.jwtUtil = jwtUtil;
     }
 
+    public Long extractAccountHolderId(String authHeader) {
+        String token = authHeader.substring(7);
+        return jwtUtil.extractAccountHolderId(token);
+    }
+
     public boolean isAuthorized(String authHeader, Long accountHolderId) {
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             return false;
         }
 
         try {
-            String token = authHeader.substring(7);
-            Long tokenAccountHolderId = jwtUtil.extractAccountHolderId(token);
-            return tokenAccountHolderId.equals(accountHolderId);
+            return extractAccountHolderId(authHeader).equals(accountHolderId);
         } catch (Exception e) {
             return false;
         }
