@@ -47,7 +47,7 @@ public class SecurityConfig {
                 .requestMatchers("/error").permitAll() // Allow error pages
                 .requestMatchers("/auth/login").permitAll() // Explicitly permit login endpoint
                 .requestMatchers("/auth/**").permitAll() // Allow all auth endpoints
-                .anyRequest().authenticated()
+                .anyRequest().authenticated() // All other requests need authentication
                 .and()
                 .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 

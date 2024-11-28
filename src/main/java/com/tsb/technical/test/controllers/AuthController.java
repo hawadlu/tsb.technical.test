@@ -1,5 +1,7 @@
 package com.tsb.technical.test.controllers;
 
+import com.tsb.technical.test.entities.AccountHolder;
+import com.tsb.technical.test.repositories.AccountHolderRepository;
 import com.tsb.technical.test.security.JwtUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,9 +18,12 @@ public class AuthController {
     private final AuthenticationManager authenticationManager;
     private final JwtUtil jwtUtil;
 
-    public AuthController(AuthenticationManager authenticationManager, JwtUtil jwtUtil) {
+    AccountHolderRepository accountHolderRepository;
+
+    public AuthController(AuthenticationManager authenticationManager, JwtUtil jwtUtil, AccountHolderRepository accountHolderRepository) {
         this.authenticationManager = authenticationManager;
         this.jwtUtil = jwtUtil;
+        this.accountHolderRepository = accountHolderRepository;
     }
 
     record LoginRequest(String username, String password) {}
@@ -32,7 +37,12 @@ public class AuthController {
                     new UsernamePasswordAuthenticationToken(request.username(), request.password())
             );
 
-            final String jwt = jwtUtil.generateToken(request.username());
+
+            // Grab the id of the authenticated used
+            // In reality we would use something unique but for simplicity I am not enforcing it here
+            Long accountHolderId = accountHolderRepository.findByUsername(request.username).getId();
+
+            final String jwt = jwtUtil.generateToken(request.username(), accountHolderId);
             return ResponseEntity.ok(new LoginResponse(jwt));
 
         } catch (BadCredentialsException e) {

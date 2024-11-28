@@ -1,4 +1,7 @@
 package com.tsb.technical.test.controllers;
+import com.tsb.technical.test.security.AccountAuthorization;
+import com.tsb.technical.test.security.AccountSecurity;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -14,16 +17,29 @@ import java.net.URI;
 public class AccountHolderController
 {
     private final AccountHolderRepository accountHolderRepository;
+    private final AccountSecurity accountSecurity;
 
-    private AccountHolderController(AccountHolderRepository accountHolderRepository) {
+    public AccountHolderController(
+            AccountHolderRepository accountHolderRepository,
+            AccountSecurity accountSecurity) {
         this.accountHolderRepository = accountHolderRepository;
-    };
+        this.accountSecurity = accountSecurity;
+    }
 
     @GetMapping("/{accountHolderId}")
-    private ResponseEntity<AccountHolder> findAccountHolderById(@PathVariable Long accountHolderId) {
-        // Try to find the appropriate item
+    @AccountAuthorization
+    public ResponseEntity<AccountHolder> findAccountHolderById(
+            @RequestHeader("Authorization") String authHeader,
+            @PathVariable Long accountHolderId) {
+
+        if (!accountSecurity.isAuthorized(authHeader, accountHolderId)) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+
         AccountHolder accountHolder = accountHolderRepository.findAccountHolderById(accountHolderId);
-        if (accountHolder != null) return ResponseEntity.ok(accountHolder);
+        if (accountHolder != null) {
+            return ResponseEntity.ok(accountHolder);
+        }
         return ResponseEntity.notFound().build();
     }
 

@@ -15,11 +15,12 @@ import java.util.function.Function;
 
 @Component
 public class JwtUtil {
-    private final SecretKey secret = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+    private static final SecretKey secret = Keys.secretKeyFor(SignatureAlgorithm.HS256);
     private final long jwtExpirationInMs = 1000 * 60 * 60 * 10; // 10 hours
 
-    public String generateToken(String username) {
+    public String generateToken(String username, Long accountHolderId) {
         Map<String, Object> claims = new HashMap<>();
+        claims.put("accountHolder", accountHolderId);
         return createToken(claims, username);
     }
 
@@ -61,5 +62,9 @@ public class JwtUtil {
                 .build();
 
         return parser.parseClaimsJws(token).getBody();
+    }
+
+    public Long extractAccountHolderId(String token) {
+        return extractClaim(token, claims -> claims.get("accountHolder", Long.class));
     }
 }
