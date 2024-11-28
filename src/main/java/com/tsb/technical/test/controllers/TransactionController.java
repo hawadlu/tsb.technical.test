@@ -88,13 +88,15 @@ public class TransactionController
         accountRepository.save(toAccount);
 
         // Create and save transaction
-        Transaction savedTransaction = transactionRepository.save(new Transaction(
+        Transaction savedTransaction = new Transaction(
                 null,
                 newTransaction.getFromAccountId(),
                 newTransaction.getToAccountId(),
                 newTransaction.getAmount(),
                 newTransaction.getAccountOwnerId()
-        ));
+        );
+
+        transactionRepository.save(newTransaction);
 
         URI locationOfNewTransaction = ucb
                 .path("transaction/{transactionId}")
