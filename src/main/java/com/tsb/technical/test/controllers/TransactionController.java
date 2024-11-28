@@ -28,16 +28,16 @@ public class TransactionController
         return ResponseEntity.ok(transaction);
     }
 
-//    @PostMapping
-//    private ResponseEntity<AccountHolder> createAccount(
-//            @RequestBody Account newAccount,
-//            UriComponentsBuilder ucb) {
-//        Account savedAccount = this.transactionRepository.save(new Account(null, newAccount.getAccountHolderId(), newAccount.getBalance(), newAccount.getAccountNumber()));
-//        URI locationOfNewAccountHolder = ucb
-//                .path("account/{accountHolderId}")
-//                .buildAndExpand(savedAccount.getId())
-//                .toUri();
-//        return ResponseEntity.created(locationOfNewAccountHolder).build();
-//    }
+    @PostMapping
+    private ResponseEntity<Transaction> createAccount(
+            @RequestBody Transaction newTransaction,
+            UriComponentsBuilder ucb) {
+        Transaction savedTransaction = this.transactionRepository.save(new Transaction(null, newTransaction.getFromAccountId(), newTransaction.getToAccountId(), newTransaction.getAmount()));
+        URI locationOfNewTransaction = ucb
+                .path("transaction/{transactionId}")
+                .buildAndExpand(savedTransaction.getId())
+                .toUri();
+        return ResponseEntity.created(locationOfNewTransaction).build();
+    }
 
 }
