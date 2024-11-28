@@ -8,9 +8,6 @@ import org.springframework.web.bind.annotation.*;
 import com.tsb.technical.test.entities.AccountHolder;
 import com.tsb.technical.test.repositories.AccountHolderRepository;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.util.UriComponentsBuilder;
-
-import java.net.URI;
 
 @RestController
 @RequestMapping("/accountHolder")

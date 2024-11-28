@@ -16,6 +16,12 @@ public class AccountSecurity {
         return jwtUtil.extractAccountHolderId(token);
     }
 
+    /**
+     * Checking if account holder matches what's in the token
+     * @param authHeader request header
+     * @param accountHolderId passed token
+     * @return authorised, yes or no
+     */
     public boolean isAuthorized(String authHeader, Long accountHolderId) {
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             return false;

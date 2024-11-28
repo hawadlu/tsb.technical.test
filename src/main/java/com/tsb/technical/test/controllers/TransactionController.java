@@ -69,6 +69,11 @@ public class TransactionController
             return ResponseEntity.badRequest().build();
         }
 
+        // Validate accounts are not the same
+        if (newTransaction.getFromAccountId().equals(newTransaction.getToAccountId())) {
+            return ResponseEntity.badRequest().build();
+        }
+
         // Validate sufficient balance
         if (fromAccount.getBalance() < newTransaction.getAmount()) {
             return ResponseEntity.badRequest().build();

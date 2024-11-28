@@ -43,7 +43,7 @@ public class AuthController {
             Long accountHolderId = accountHolderRepository.findByUsername(request.username).getId();
 
             final String jwt = jwtUtil.generateToken(request.username(), accountHolderId);
-            // Not great practice but it will do for now
+            // Not great practice but for simplicity it will be ok
             return ResponseEntity.ok(new LoginResponse(jwt, accountHolderId));
 
         } catch (BadCredentialsException e) {

@@ -93,8 +93,8 @@ public class SecurityConfig {
 
             return User.builder()
                     .username(holder.getUsername())
-                    .password(holder.getPassword())  // Assuming password is already encoded
-                    .roles("USER")  // Or get from holder if you have roles
+                    .password(holder.getPassword())
+                    .roles("USER")
                     .build();
         }
     }
