@@ -29,6 +29,18 @@ public class AccountController
         return ResponseEntity.ok(accounts);
     }
 
+    @PostMapping
+    private ResponseEntity<AccountHolder> createAccount(
+            @RequestBody Account newAccount,
+            UriComponentsBuilder ucb) {
+        Account savedAccount = this.accountRepository.save(new Account(null, newAccount.getAccountHolderId(), newAccount.getBalance(), newAccount.getAccountNumber()));
+        URI locationOfNewAccountHolder = ucb
+                .path("account/{accountHolderId}")
+                .buildAndExpand(savedAccount.getId())
+                .toUri();
+        return ResponseEntity.created(locationOfNewAccountHolder).build();
+    }
+
 //    @PostMapping
 //    private ResponseEntity<AccountHolder> createAccountHolder(@RequestBody AccountHolder newAccountHolder, UriComponentsBuilder ucb) {
 //        AccountHolder savedAccountHolder = this.accountHolderRepository.save(new AccountHolder(null, newAccountHolder.getName(), newAccountHolder.getEmail()));
