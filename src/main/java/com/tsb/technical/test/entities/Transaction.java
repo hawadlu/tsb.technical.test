@@ -1,10 +1,8 @@
 package com.tsb.technical.test.entities;
 
 import jakarta.persistence.*;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.relational.core.mapping.Table;
 
-
+@Entity
 @Table(name = "transaction")
 public class Transaction {
     @Id
