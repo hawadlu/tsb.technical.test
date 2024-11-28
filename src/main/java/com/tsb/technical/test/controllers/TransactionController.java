@@ -21,10 +21,10 @@ public class TransactionController
         this.transactionRepository = accountRepository;
     };
 
-    @GetMapping("/{transactionId}")
-    private ResponseEntity<Transaction> findTransactionById(@PathVariable Long transactionId) {
+    @GetMapping("/{accountId}")
+    private ResponseEntity<List<Transaction>> findTransactionByAccountId(@PathVariable Long accountId) {
         // Try to find the appropriate item
-        Transaction transaction = transactionRepository.getById(transactionId);
+        List<Transaction> transaction = transactionRepository.findAllByFromAccountId(accountId);
         return ResponseEntity.ok(transaction);
     }
 

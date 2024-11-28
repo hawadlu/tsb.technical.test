@@ -8,4 +8,5 @@ import java.util.List;
 
 public interface TransactionRepository extends CrudRepository<Transaction, Long> {
     Transaction getById(Long id);
+    List<Transaction> findAllByFromAccountId(Long id);
 }
