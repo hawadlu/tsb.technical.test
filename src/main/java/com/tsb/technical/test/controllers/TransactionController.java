@@ -34,18 +34,17 @@ public class TransactionController
         this.accountSecurity = accountSecurity;
     };
 
-    @GetMapping("/{accountHolderId}/{accountId}")
+    @GetMapping("/{accountHolderId}")
     public ResponseEntity<List<Transaction>> findTransactionByAccountId(
             @RequestHeader("Authorization") String authHeader,
-            @PathVariable Long accountHolderId,
-            @PathVariable Long accountId
+            @PathVariable Long accountHolderId
     ) {
         if (!accountSecurity.isAuthorized(authHeader, accountHolderId)) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
 
         // Try to find the appropriate item
-        List<Transaction> transaction = transactionRepository.findAllByFromAccountId(accountId);
+        List<Transaction> transaction = transactionRepository.findAllByAccountOwnerId(accountHolderId);
         return ResponseEntity.ok(transaction);
     }
 
