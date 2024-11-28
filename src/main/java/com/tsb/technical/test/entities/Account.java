@@ -3,9 +3,8 @@ package com.tsb.technical.test.entities;
 import jakarta.persistence.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
-import java.math.BigDecimal;
 
-@Table("account")
+@Table(name = "account")
 public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,15 +14,6 @@ public class Account {
 
     private Long accountNumber;
     private Long balance;
-
-    public Account() {}
-
-    public Account(Long id, Long accountHolderId, Long accountNumber, Long balance) {
-        this.id = id;
-        this.accountHolderId = accountHolderId;
-        this.accountNumber = accountNumber;
-        this.balance = balance;
-    }
 
     public Long getId() {
         return id;
@@ -54,6 +44,15 @@ public class Account {
     }
 
     public void setBalance(Long balance) {
+        this.balance = balance;
+    }
+
+    public Account() {}
+
+    public Account(Long id, Long accountHolderId, Long accountNumber, Long balance) {
+        this.id = id;
+        this.accountHolderId = accountHolderId;
+        this.accountNumber = accountNumber;
         this.balance = balance;
     }
 }

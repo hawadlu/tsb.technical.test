@@ -1,9 +1,9 @@
 package com.tsb.technical.test.entities;
 
-
 import jakarta.persistence.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
+
 @Table("account_holder")
 public class AccountHolder {
     @Id
@@ -11,6 +11,14 @@ public class AccountHolder {
     private Long id;
     private String name;
     private String email;
+
+    public AccountHolder() {}
+
+    public AccountHolder(Long id, String name, String email) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+    }
 
     public Long getId() {
         return id;
@@ -35,12 +43,4 @@ public class AccountHolder {
     public void setEmail(String email) {
         this.email = email;
     }
-
-    public AccountHolder(Long id, String name, String email) {
-        this.id = id;
-        this.name = name;
-        this.email = email;
-    }
-
-    public AccountHolder() {}
 }
