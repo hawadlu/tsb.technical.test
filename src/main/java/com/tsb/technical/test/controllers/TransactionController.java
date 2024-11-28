@@ -5,6 +5,8 @@ import com.tsb.technical.test.entities.AccountHolder;
 import com.tsb.technical.test.entities.Transaction;
 import com.tsb.technical.test.repositories.AccountRepository;
 import com.tsb.technical.test.repositories.TransactionRepository;
+import com.tsb.technical.test.security.AccountSecurity;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -20,13 +22,28 @@ public class TransactionController
     private final TransactionRepository transactionRepository;
     private final AccountRepository accountRepository;
 
-    public TransactionController(TransactionRepository transactionRepository, AccountRepository accountRepository) {
+    private final AccountSecurity accountSecurity;
+
+    public TransactionController(
+            TransactionRepository transactionRepository,
+            AccountRepository accountRepository,
+            AccountSecurity accountSecurity
+    ) {
         this.transactionRepository = transactionRepository;
         this.accountRepository = accountRepository;
+        this.accountSecurity = accountSecurity;
     };
 
-    @GetMapping("/{accountId}")
-    public ResponseEntity<List<Transaction>> findTransactionByAccountId(@PathVariable Long accountId) {
+    @GetMapping("/{accountHolderId}/{accountId}")
+    public ResponseEntity<List<Transaction>> findTransactionByAccountId(
+            @RequestHeader("Authorization") String authHeader,
+            @PathVariable Long accountHolderId,
+            @PathVariable Long accountId
+    ) {
+        if (!accountSecurity.isAuthorized(authHeader, accountHolderId)) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+
         // Try to find the appropriate item
         List<Transaction> transaction = transactionRepository.findAllByFromAccountId(accountId);
         return ResponseEntity.ok(transaction);
