@@ -37,3 +37,7 @@ out/
 .vscode/
 /gradle/wrapper/gradle-wrapper.jar
 /gradle/wrapper/gradle-wrapper.properties
+
+### Keys ###
+/src/main/resources/private_key.pem
+/src/main/resources/public_key.pub

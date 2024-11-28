@@ -9,15 +9,15 @@ public class AccountHolder {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String name;
-    private String email;
+    private String username;
+    private String password;
 
     public AccountHolder() {}
 
-    public AccountHolder(Long id, String name, String email) {
+    public AccountHolder(Long id, String username, String password) {
         this.id = id;
-        this.name = name;
-        this.email = email;
+        this.username = username;
+        this.password = password;
     }
 
     public Long getId() {
@@ -28,19 +28,19 @@ public class AccountHolder {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getUsername() {
+        return username;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUsername(String name) {
+        this.username = name;
     }
 
-    public String getEmail() {
-        return email;
+    public String getPassword() {
+        return password;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setPassword(String email) {
+        this.password = email;
     }
 }

@@ -9,4 +9,5 @@ import org.springframework.stereotype.Repository;
 
 public interface AccountHolderRepository extends CrudRepository<AccountHolder, Long> {
     AccountHolder findAccountHolderById(Long id);
+    AccountHolder findByUsername(String username);
 }

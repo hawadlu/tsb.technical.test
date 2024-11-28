@@ -1,5 +1,6 @@
-INSERT INTO account_holder (id, name, email) VALUES
-(1, 'Jane Smith', 'jane.smith@example.com');
+INSERT INTO account_holder (id, name, username, password) VALUES
+(1, 'Jane Smith', 'abc', '$2a$12$/ssvAPOpOIpv.MTfvO7SJO/kTA/pXu4GgPpHm73jueLlmfbF8Twva');
+-- "test" BCrypt 12 rounds
 
 INSERT INTO account (id, account_holder_id, account_number, balance) VALUES (1, 1, 1, 123.45);
 INSERT INTO account (id, account_holder_id, account_number, balance) VALUES (2, 1, 2, 12);
